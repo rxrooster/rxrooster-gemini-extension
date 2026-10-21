@@ -87,6 +87,12 @@ RxRooster sign-in, verification, review, and an explicit user action.
 - For an employer or recruiter, use `prepare_anesthesia_job_draft` with either
   a pasted anesthesia job description or the previously returned structured
   draft plus follow-up answers.
+- Before sending pasted text, tell the user that RxRooster locally removes
+  recognizable contact blocks and sends only the minimized text to its
+  configured AI parsing provider. Ask them to remove names, contact details,
+  credentials, patient information, access links, and other confidential
+  content before continuing. If they prefer not to use parsing, collect the
+  structured draft fields conversationally instead.
 - Do not copy contact details into structured fields. The tool removes contact
   data and never returns the raw pasted description.
 - Ask every returned follow-up marked `required_for_handoff` before offering the

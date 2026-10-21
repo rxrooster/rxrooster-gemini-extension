@@ -71,7 +71,11 @@ RxRooster service draft. For employers, it can parse a pasted anesthesia job
 description, ask for missing publication facts, and prepare a requisition for
 native facility verification and review. Neither path exposes PII: provider
 drafts reject identity/contact fields, and requisition parsing removes contact
-details before returning structured facts.
+details before returning structured facts. Before using the configured AI
+parser, RxRooster locally removes recognizable contact blocks and sends only
+the minimized text; RxRooster does not store or return the pasted description.
+Users should remove personal, credential, patient, access-link, and other
+confidential content before pasting.
 
 Read the [RxRooster privacy policy](https://rxrooster.com/privacy-policy),
 [terms of service](https://rxrooster.com/terms-of-service), and
