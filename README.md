@@ -51,10 +51,12 @@ contact anyone. Native RxRooster sign-in, verification, review, and an explicit
 publish action remain required.
 
 The extension cannot apply to jobs, expose provider identities or contact
-details, return provider counts, reveal private rates or personal calendars, or
-confirm exact availability. Public CRNA service cards may include
-provider-published minimum compensation, engagement type, work type, and
-schedule preferences. Anesthesiologist coverage requests return an explicit
+details, return provider counts, reveal another provider's private rates or
+personal calendars, or confirm exact availability. A provider's own submitted
+private minimum may be restated only to that provider while reviewing their
+draft; it is never a public coverage result. Public CRNA service cards may
+include provider-published minimum compensation, engagement type, work type,
+and schedule preferences. Anesthesiologist coverage requests return an explicit
 unsupported result in this release.
 An empty coverage response is inconclusive: it establishes neither a provider
 count nor availability and must never be translated into a numeric bound.

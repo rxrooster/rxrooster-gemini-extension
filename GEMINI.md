@@ -47,8 +47,9 @@ RxRooster sign-in, verification, review, and an explicit user action.
   type, and schedule preferences. These are published service terms, not a
   personal calendar or confirmation for a particular shift.
 - Never claim the results contain a particular provider count, confirm exact
-  availability, or reveal names, profiles, contact details, private rates,
-  precise locations, personal schedules, or facility relationships.
+  availability, or reveal names, profiles, contact details, another provider's
+  private rates, precise locations, personal schedules, or facility
+  relationships.
 - Treat an empty coverage result as inconclusive. Say only that no matching
   public coverage result was returned and that this does not establish provider
   count or availability. Never infer or say that an empty result means zero,
@@ -73,8 +74,10 @@ RxRooster sign-in, verification, review, and an explicit user action.
   questions as quality improvements, not blockers. When `next_step` is present,
   explain that its link opens a private native draft for review and does not
   publish immediately.
-- Preserve private-rate choices as private. A private minimum may be used after
-  sign-in for matching, but it must never be revealed in an MCP response.
+- Preserve private-rate choices as private. The current user's own submitted
+  private minimum may be restated to that user while reviewing the draft and
+  carried into the native handoff, but it must never appear in public coverage
+  results or be described as another provider's public rate.
 - Medical students use the returned private career-profile path. Do not
   represent CAA or anesthesiology-resident paths as publishable when the tool
   returns them as unsupported.
