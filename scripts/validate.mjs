@@ -12,6 +12,7 @@ const packageJson = JSON.parse(
 const expectedTools = [
   'explore_coverage_areas',
   'get_anesthesia_job',
+  'get_anesthesia_recruiting_packet',
   'prepare_anesthesia_job_draft',
   'prepare_anesthesia_service_draft',
   'search_anesthesia_jobs',
@@ -55,7 +56,7 @@ assert(server.trust === undefined, 'The extension must not bypass tool approvals
 const actualTools = [...(server.includeTools ?? [])].sort();
 assert(
   JSON.stringify(actualTools) === JSON.stringify(expectedTools),
-  'The MCP server must allowlist exactly the five reviewed read-only tools.',
+  'The MCP server must allowlist exactly the six reviewed read-only tools.',
 );
 
 assert(
@@ -98,6 +99,12 @@ assert(
     context.includes('`prepare_anesthesia_job_draft`') &&
     context.includes('read-only and non-persistent'),
   'Gemini context must document both non-persistent draft workflows.',
+);
+assert(
+  context.includes('`get_anesthesia_recruiting_packet`') &&
+    context.includes('Do not auto-post') &&
+    context.includes('still live and public'),
+  'Gemini context must constrain recruiting packets to live public listings and explicit user actions.',
 );
 assert(
   normalizedContext.includes('does not publish immediately') &&

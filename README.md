@@ -1,9 +1,9 @@
 # RxRooster for Gemini CLI
 
 This Gemini CLI extension connects Gemini to RxRooster's public MCP server. It
-supports current public anesthesia job search, bounded job detail, anonymous
-public CRNA service coverage, and privacy-safe draft preparation for provider
-services and employer requisitions.
+supports current public anesthesia job search, bounded job detail, recruiting
+packets for live public listings, anonymous public CRNA service coverage, and
+privacy-safe draft preparation for provider services and employer requisitions.
 
 ## Install
 
@@ -31,21 +31,26 @@ is enabled:
 - Find CRNA jobs in Texas and Arizona.
 - Show anesthesiologist jobs in Oregon.
 - Tell me more about the first result.
+- Create the recruiting packet for the first result.
 - Where does RxRooster show CRNA coverage in Florida?
 
 ## Privacy and limitations
 
 The extension has no credentials and requests no local or cloud permissions.
-It connects only to `https://api.rxrooster.com/mcp` and allowlists five
+It connects only to `https://api.rxrooster.com/mcp` and allowlists six
 read-only tools:
 
 - `search_anesthesia_jobs`
 - `get_anesthesia_job`
+- `get_anesthesia_recruiting_packet`
 - `explore_coverage_areas`
 - `prepare_anesthesia_service_draft`
 - `prepare_anesthesia_job_draft`
 
-All five tools are read-only. The preparation tools structure a short-lived
+All six tools are read-only. Recruiting packets are generated only for listings
+that are rechecked as live and public; they return reviewable share assets and
+copy but never auto-post, save, publish, or contact anyone. The preparation
+tools structure a short-lived
 handoff but do not create accounts, save records, publish services or jobs, or
 contact anyone. Native RxRooster sign-in, verification, review, and an explicit
 publish action remain required.
