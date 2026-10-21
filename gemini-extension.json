@@ -1,0 +1,19 @@
+{
+  "name": "rxrooster-gemini-extension",
+  "version": "1.0.0",
+  "description": "Search public anesthesia jobs and explore privacy-thresholded CRNA coverage areas from RxRooster.",
+  "repository": "https://github.com/rxrooster/rxrooster-gemini-extension",
+  "mcpServers": {
+    "rxrooster": {
+      "httpUrl": "https://api.rxrooster.com/mcp",
+      "timeout": 30000,
+      "description": "Read-only public anesthesia job discovery and privacy-thresholded CRNA coverage-area exploration.",
+      "includeTools": [
+        "search_anesthesia_jobs",
+        "get_anesthesia_job",
+        "explore_coverage_areas"
+      ]
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

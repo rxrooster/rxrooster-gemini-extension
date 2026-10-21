@@ -1,0 +1,12 @@
+{
+  "name": "rxrooster-gemini-extension",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gemini CLI extension for the public RxRooster MCP server.",
+  "scripts": {
+    "validate": "node scripts/validate.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
