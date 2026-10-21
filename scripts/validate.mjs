@@ -5,6 +5,9 @@ import path from 'node:path';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const manifestPath = path.join(root, 'gemini-extension.json');
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+const packageJson = JSON.parse(
+  await readFile(path.join(root, 'package.json'), 'utf8'),
+);
 
 const expectedTools = [
   'explore_coverage_areas',
@@ -27,6 +30,10 @@ assert(
   'Manifest name must use lowercase letters, numbers, and single dashes.',
 );
 assert(/^\d+\.\d+\.\d+$/.test(manifest.version), 'Version must be SemVer.');
+assert(
+  manifest.version === packageJson.version,
+  'Manifest and package versions must match.',
+);
 assert(
   typeof manifest.description === 'string' && manifest.description.length > 0,
   'A gallery description is required.',
@@ -53,7 +60,37 @@ assert(
   manifest.contextFileName === 'GEMINI.md',
   'The extension must explicitly load GEMINI.md.',
 );
-await readFile(path.join(root, manifest.contextFileName), 'utf8');
+const context = await readFile(
+  path.join(root, manifest.contextFileName),
+  'utf8',
+);
+assert(
+  context.includes('authoritative display order') &&
+    context.includes("unchanged `detail_arguments` object"),
+  'Gemini context must preserve ordered search IDs for ordinal follow-ups.',
+);
+assert(
+  /Do not re-search,\s+reorder, sort, or select by title/.test(context),
+  'Gemini context must forbid fuzzy or reordered ordinal job selection.',
+);
+assert(
+  context.includes('Treat an empty coverage result as inconclusive') &&
+    context.includes('does not establish provider') &&
+    context.includes('fewer than any number'),
+  'Gemini context must make empty coverage results non-quantitative.',
+);
+assert(
+  context.includes('Present returned service cards in their exact order') &&
+    context.includes('published service terms') &&
+    context.includes('private rates'),
+  'Gemini context must present public service-card terms without exposing private terms.',
+);
+assert(
+  !/(?:at least|fewer than|less than)\s+\d+\s+(?:clinicians|crnas|providers)/i.test(
+    context,
+  ),
+  'Gemini context must not disclose or infer a numeric publication threshold.',
+);
 await readFile(path.join(root, 'README.md'), 'utf8');
 
 console.log(

@@ -2,7 +2,7 @@
 
 This Gemini CLI extension connects Gemini to RxRooster's public, read-only MCP
 server. It supports current public anesthesia job search, bounded job detail,
-and privacy-thresholded CRNA coverage-area exploration.
+and anonymous public CRNA service coverage exploration.
 
 ## Install
 
@@ -43,9 +43,18 @@ read-only tools:
 - `explore_coverage_areas`
 
 It cannot apply to jobs, post or edit requisitions, contact clinicians, expose
-provider identities or contact details, return provider counts, or confirm
-exact availability. Coverage-area exploration supports CRNAs in this release;
-anesthesiologist coverage-area requests return an explicit unsupported result.
+provider identities or contact details, return provider counts, reveal private
+rates or personal calendars, or confirm exact availability. Public CRNA service
+cards may include provider-published minimum compensation, engagement type,
+work type, and schedule preferences. Anesthesiologist coverage requests return
+an explicit unsupported result in this release.
+An empty coverage response is inconclusive: it establishes neither a provider
+count nor availability and must never be translated into a numeric bound.
+
+Gemini must preserve the exact order returned by job search. Ordinal follow-ups
+such as "the first result" use the opaque ID at that position in the most
+recent displayed result array by passing its exact `detail_arguments` object;
+they never trigger a reordered search or a title/location guess.
 
 Read the [RxRooster privacy policy](https://rxrooster.com/privacy-policy),
 [terms of service](https://rxrooster.com/terms-of-service), and
