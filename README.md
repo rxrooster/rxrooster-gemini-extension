@@ -1,8 +1,9 @@
 # RxRooster for Gemini CLI
 
-This Gemini CLI extension connects Gemini to RxRooster's public, read-only MCP
-server. It supports current public anesthesia job search, bounded job detail,
-and anonymous public CRNA service coverage exploration.
+This Gemini CLI extension connects Gemini to RxRooster's public MCP server. It
+supports current public anesthesia job search, bounded job detail, recruiting
+packets for live public listings, anonymous public CRNA service coverage, and
+privacy-safe draft preparation for provider services and employer requisitions.
 
 ## Install
 
@@ -30,24 +31,38 @@ is enabled:
 - Find CRNA jobs in Texas and Arizona.
 - Show anesthesiologist jobs in Oregon.
 - Tell me more about the first result.
+- Create the recruiting packet for the first result.
 - Where does RxRooster show CRNA coverage in Florida?
 
 ## Privacy and limitations
 
 The extension has no credentials and requests no local or cloud permissions.
-It connects only to `https://api.rxrooster.com/mcp` and allowlists three
+It connects only to `https://api.rxrooster.com/mcp` and allowlists six
 read-only tools:
 
 - `search_anesthesia_jobs`
 - `get_anesthesia_job`
+- `get_anesthesia_recruiting_packet`
 - `explore_coverage_areas`
+- `prepare_anesthesia_service_draft`
+- `prepare_anesthesia_job_draft`
 
-It cannot apply to jobs, post or edit requisitions, contact clinicians, expose
-provider identities or contact details, return provider counts, reveal private
-rates or personal calendars, or confirm exact availability. Public CRNA service
-cards may include provider-published minimum compensation, engagement type,
-work type, and schedule preferences. Anesthesiologist coverage requests return
-an explicit unsupported result in this release.
+All six tools are read-only. Recruiting packets are generated only for listings
+that are rechecked as live and public; they return reviewable share assets and
+copy but never auto-post, save, publish, or contact anyone. The preparation
+tools structure a short-lived
+handoff but do not create accounts, save records, publish services or jobs, or
+contact anyone. Native RxRooster sign-in, verification, review, and an explicit
+publish action remain required.
+
+The extension cannot apply to jobs, expose provider identities or contact
+details, return provider counts, reveal another provider's private rates or
+personal calendars, or confirm exact availability. A provider's own submitted
+private minimum may be restated only to that provider while reviewing their
+draft; it is never a public coverage result. Public CRNA service cards may
+include provider-published minimum compensation, engagement type, work type,
+and schedule preferences. Anesthesiologist coverage requests return an explicit
+unsupported result in this release.
 An empty coverage response is inconclusive: it establishes neither a provider
 count nor availability and must never be translated into a numeric bound.
 
@@ -55,6 +70,17 @@ Gemini must preserve the exact order returned by job search. Ordinal follow-ups
 such as "the first result" use the opaque ID at that position in the most
 recent displayed result array by passing its exact `detail_arguments` object;
 they never trigger a reordered search or a title/location guess.
+
+For providers, Gemini can collect public work terms and prepare a private
+RxRooster service draft. For employers, it can parse a pasted anesthesia job
+description, ask for missing publication facts, and prepare a requisition for
+native facility verification and review. Neither path exposes PII: provider
+drafts reject identity/contact fields, and requisition parsing removes contact
+details before returning structured facts. Before using the configured AI
+parser, RxRooster locally removes recognizable contact blocks and sends only
+the minimized text; RxRooster does not store or return the pasted description.
+Users should remove personal, credential, patient, access-link, and other
+confidential content before pasting.
 
 Read the [RxRooster privacy policy](https://rxrooster.com/privacy-policy),
 [terms of service](https://rxrooster.com/terms-of-service), and
