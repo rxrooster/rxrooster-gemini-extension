@@ -1,8 +1,9 @@
 # RxRooster for Gemini CLI
 
-This Gemini CLI extension connects Gemini to RxRooster's public, read-only MCP
-server. It supports current public anesthesia job search, bounded job detail,
-and anonymous public CRNA service coverage exploration.
+This Gemini CLI extension connects Gemini to RxRooster's public MCP server. It
+supports current public anesthesia job search, bounded job detail, anonymous
+public CRNA service coverage, and privacy-safe draft preparation for provider
+services and employer requisitions.
 
 ## Install
 
@@ -35,19 +36,26 @@ is enabled:
 ## Privacy and limitations
 
 The extension has no credentials and requests no local or cloud permissions.
-It connects only to `https://api.rxrooster.com/mcp` and allowlists three
+It connects only to `https://api.rxrooster.com/mcp` and allowlists five
 read-only tools:
 
 - `search_anesthesia_jobs`
 - `get_anesthesia_job`
 - `explore_coverage_areas`
+- `prepare_anesthesia_service_draft`
+- `prepare_anesthesia_job_draft`
 
-It cannot apply to jobs, post or edit requisitions, contact clinicians, expose
-provider identities or contact details, return provider counts, reveal private
-rates or personal calendars, or confirm exact availability. Public CRNA service
-cards may include provider-published minimum compensation, engagement type,
-work type, and schedule preferences. Anesthesiologist coverage requests return
-an explicit unsupported result in this release.
+All five tools are read-only. The preparation tools structure a short-lived
+handoff but do not create accounts, save records, publish services or jobs, or
+contact anyone. Native RxRooster sign-in, verification, review, and an explicit
+publish action remain required.
+
+The extension cannot apply to jobs, expose provider identities or contact
+details, return provider counts, reveal private rates or personal calendars, or
+confirm exact availability. Public CRNA service cards may include
+provider-published minimum compensation, engagement type, work type, and
+schedule preferences. Anesthesiologist coverage requests return an explicit
+unsupported result in this release.
 An empty coverage response is inconclusive: it establishes neither a provider
 count nor availability and must never be translated into a numeric bound.
 
@@ -55,6 +63,13 @@ Gemini must preserve the exact order returned by job search. Ordinal follow-ups
 such as "the first result" use the opaque ID at that position in the most
 recent displayed result array by passing its exact `detail_arguments` object;
 they never trigger a reordered search or a title/location guess.
+
+For providers, Gemini can collect public work terms and prepare a private
+RxRooster service draft. For employers, it can parse a pasted anesthesia job
+description, ask for missing publication facts, and prepare a requisition for
+native facility verification and review. Neither path exposes PII: provider
+drafts reject identity/contact fields, and requisition parsing removes contact
+details before returning structured facts.
 
 Read the [RxRooster privacy policy](https://rxrooster.com/privacy-policy),
 [terms of service](https://rxrooster.com/terms-of-service), and

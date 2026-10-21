@@ -12,6 +12,8 @@ const packageJson = JSON.parse(
 const expectedTools = [
   'explore_coverage_areas',
   'get_anesthesia_job',
+  'prepare_anesthesia_job_draft',
+  'prepare_anesthesia_service_draft',
   'search_anesthesia_jobs',
 ];
 
@@ -53,7 +55,7 @@ assert(server.trust === undefined, 'The extension must not bypass tool approvals
 const actualTools = [...(server.includeTools ?? [])].sort();
 assert(
   JSON.stringify(actualTools) === JSON.stringify(expectedTools),
-  'The MCP server must allowlist exactly the three reviewed read-only tools.',
+  'The MCP server must allowlist exactly the five reviewed read-only tools.',
 );
 
 assert(
@@ -64,6 +66,7 @@ const context = await readFile(
   path.join(root, manifest.contextFileName),
   'utf8',
 );
+const normalizedContext = context.replace(/\s+/g, ' ');
 assert(
   context.includes('authoritative display order') &&
     context.includes("unchanged `detail_arguments` object"),
@@ -84,6 +87,23 @@ assert(
     context.includes('published service terms') &&
     context.includes('private rates'),
   'Gemini context must present public service-card terms without exposing private terms.',
+);
+assert(
+  context.includes('first ask whether the user is an anesthesia provider') &&
+    context.includes('employer/recruiter'),
+  'Gemini context must disambiguate provider and employer audiences.',
+);
+assert(
+  context.includes('`prepare_anesthesia_service_draft`') &&
+    context.includes('`prepare_anesthesia_job_draft`') &&
+    context.includes('read-only and non-persistent'),
+  'Gemini context must document both non-persistent draft workflows.',
+);
+assert(
+  normalizedContext.includes('does not publish immediately') &&
+    normalizedContext.includes('select or verify an owned facility') &&
+    normalizedContext.includes('Never ask for or pass a name, email, phone'),
+  'Gemini context must preserve native review and privacy boundaries.',
 );
 assert(
   !/(?:at least|fewer than|less than)\s+\d+\s+(?:clinicians|crnas|providers)/i.test(
